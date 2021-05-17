@@ -1,0 +1,27 @@
+# Configuração de desenvolvimento
+# Para produção substituir no arquivo .env na raiz do projeto
+# 
+version: '3.8'
+services:
+  server:
+    env_file:
+     - .env
+    build:
+      context: ./
+      target: ${NODE_ENV}
+    image: ${NODE_VERSION}
+    container_name: ${CONTAINER_NAME}
+    volumes:
+      - .:/usr/src/app
+    working_dir: ${WORKING_DIR}
+    command: ${COMAND_ENV}
+    ports:
+      - ${SERVER_PORT_CONTAINER}:${SERVER_PORT_EXTERN}
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      SERVER_PORT_CONTAINER: ${SERVER_PORT_CONTAINER}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOGGING_DRIVER_MAX_SIZE}"
+        max-file: "${LOGGING_DRIVER_MIN_SIZE}"
